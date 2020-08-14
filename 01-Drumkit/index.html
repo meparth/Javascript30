@@ -11,62 +11,75 @@
 
 
     <div class="keys">
-        <div data-key="65" class="key">
+        <div data-key="65" data-kbd="A" class="key">
             <kbd>A</kbd>
             <span class="sound">clap</span>
         </div>
-        <div data-key="83" class="key">
+        <div data-key="83" data-kbd="S" class="key">
             <kbd>S</kbd>
             <span class="sound">hihat</span>
         </div>
-        <div data-key="68" class="key">
+        <div data-key="68" data-kbd="D" class="key">
             <kbd>D</kbd>
             <span class="sound">kick</span>
         </div>
-        <div data-key="70" class="key">
+        <div data-key="70" data-kbd="F" class="key">
             <kbd>F</kbd>
             <span class="sound">openhat</span>
         </div>
-        <div data-key="71" class="key">
+        <div data-key="71" data-kbd="G" class="key">
             <kbd>G</kbd>
             <span class="sound">boom</span>
         </div>
-        <div data-key="72" class="key">
+        <div data-key="72" data-kbd="H" class="key">
             <kbd>H</kbd>
             <span class="sound">ride</span>
         </div>
-        <div data-key="74" class="key">
+        <div data-key="74" data-kbd="J" class="key">
             <kbd>J</kbd>
             <span class="sound">snare</span>
         </div>
-        <div data-key="75" class="key">
+        <div data-key="75" data-kbd="K" class="key">
             <kbd>K</kbd>
             <span class="sound">tom</span>
         </div>
-        <div data-key="76" class="key">
+        <div data-key="76" data-kbd="L" class="key">
             <kbd>L</kbd>
             <span class="sound">tink</span>
         </div>
     </div>
 
-    <audio data-key="65" src="sounds/clap.wav"></audio>
-    <audio data-key="83" src="sounds/hihat.wav"></audio>
-    <audio data-key="68" src="sounds/kick.wav"></audio>
-    <audio data-key="70" src="sounds/openhat.wav"></audio>
-    <audio data-key="71" src="sounds/boom.wav"></audio>
-    <audio data-key="72" src="sounds/ride.wav"></audio>
-    <audio data-key="74" src="sounds/snare.wav"></audio>
-    <audio data-key="75" src="sounds/tom.wav"></audio>
-    <audio data-key="76" src="sounds/tink.wav"></audio>
+    <audio data-key="65" data-kbd="A" src="sounds/clap.wav"></audio>
+    <audio data-key="83" data-kbd="S" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" data-kbd="D" src="sounds/kick.wav"></audio>
+    <audio data-key="70" data-kbd="F" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" data-kbd="G" src="sounds/boom.wav"></audio>
+    <audio data-key="72" data-kbd="H" src="sounds/ride.wav"></audio>
+    <audio data-key="74" data-kbd="J" src="sounds/snare.wav"></audio>
+    <audio data-key="75" data-kbd="K" src="sounds/tom.wav"></audio>
+    <audio data-key="76" data-kbd="L" src="sounds/tink.wav"></audio>
 
     <script>
-         function playSound(e){
-            const audio = document.querySelector(`audio[data-key="${e.keyCode}"`);
+
+
+
+        function playSound(e){
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
             if(!audio) return;
             audio.currentTime = 0;
             audio.play();
             
-            const key = document.querySelector(`.key[data-key="${e.keyCode}"`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            key.classList.add('playing');
+        }
+
+        function playClickSound(e) {
+            const audio = document.querySelector(`audio[data-kbd="${e.path[0].lastChild.data}"]`);
+            if(!audio) return;
+            audio.currentTime = 0;
+            audio.play();
+
+            const key = document.querySelector(`.key[data-kbd="${e.path[0].lastChild.data}"]`);
             key.classList.add('playing');
         }
 
@@ -78,6 +91,7 @@
         const keys = document.querySelectorAll('.key');
         keys.forEach(key => key.addEventListener('transitionend', removeTransition));
         window.addEventListener('keydown', playSound);
+        window.addEventListener('click', playClickSound);
     </script>
 
 
